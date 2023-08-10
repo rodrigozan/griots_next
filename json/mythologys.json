@@ -1,0 +1,50 @@
+[
+    {
+        "mythology": "Tupi-Guarani",
+        "god_wisdom": "Tupã"
+    },
+    {
+        "mythology": "Grega",
+        "god_wisdom": "Athena"
+    },
+    {
+        "mythology": "Romana",
+        "god_wisdom": "Minerva"
+    },
+    {
+        "mythology": "Nórdica",
+        "god_wisdom": "Odin"
+    },
+    {
+        "mythology": "Egípcia",
+        "god_wisdom": "Thoth"
+    },
+    {
+        "mythology": "Iorubá",
+        "god_wisdom": "Orunmila"
+    },
+    {
+        "mythology": "Celta",
+        "god_wisdom": "Ogma"
+    },
+    {
+        "mythology": "Japonesa",
+        "god_wisdom": "Tenjin"
+    },
+    {
+        "mythology": "Chinesa",
+        "god_wisdom": "Wenchang Wang"
+    },
+    {
+        "mythology": "Coreana",
+        "god_wisdom": "Chun-T'ian"
+    },
+    {
+        "mythology": "Asteca",
+        "god_wisdom": "Quetzalcóatl"
+    },
+    {
+        "mythology": "Bantu",
+        "god_wisdom": "Mbombo"
+    }
+]

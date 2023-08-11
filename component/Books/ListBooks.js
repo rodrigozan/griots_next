@@ -17,10 +17,9 @@ const List = ({ onAddBook, onShowSingleBook, onDeleteBook, onUpdateBook }) => {
   const fetchBooks = async () => {
     try {
       const response = await axios.get('http://localhost:4000/api/books');
-      //setBooks(response.data);
       const booksWithAuthors = await Promise.all(
         response.data.map(async (book) => {
-          console.log(book.author)
+          console.log(book)
           const author = await fetchUser(book.author);
           return { ...book, author };
         })
@@ -41,8 +40,6 @@ const List = ({ onAddBook, onShowSingleBook, onDeleteBook, onUpdateBook }) => {
       return null;
     }
   };
-  
-
 
   const handleDelete = async (bookId) => {
     try {
@@ -57,7 +54,7 @@ const List = ({ onAddBook, onShowSingleBook, onDeleteBook, onUpdateBook }) => {
     return (
       <div className="col-12">
         <div className="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-          <img className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" src={`https://img.wattpad.com/cover/315184341-256-k526528.jpg`} alt={book.title} />
+          <img className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" src={book.cover} alt={book.title} />
           <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">              
               <div>
@@ -69,7 +66,7 @@ const List = ({ onAddBook, onShowSingleBook, onDeleteBook, onUpdateBook }) => {
               </div>
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-              <Button onClick={() => onUpdateBook(book._id)} severity="warning" className='w-full'>Update</Button>
+              <Button onClick={() => onUpdateBook(book)} severity="warning" className='w-full'>Update Details</Button>
               <Button onClick={() => handleDelete(book._id)} severity="danger" className='w-full'>Delete</Button>
             </div>
           </div>

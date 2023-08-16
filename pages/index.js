@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 
-import Navbar from '@/components/Navbar'
+import DefaultLayout from "@/layouts/default";
+import NoSidebarLayout from "@/layouts/no_header";
+
 import Login from '@/components/Login'
 import ListBook from '@/components/Books/ListBook'
 
@@ -12,17 +14,13 @@ export default function Home() {
     setIsLoggedIn(storedValue)
   }, [])
 
-  //const Layout = isLoggedIn != null ? ListBook : Login;
+  const Component = isLoggedIn ? ListBook : Login;
+  const Layout = isLoggedIn ? DefaultLayout : NoSidebarLayout;
+
   return (
-    <>
-      <Navbar />
-      <main className='container'>
-        <section className='home row'>
-          {/* <Layout /> */}
-          <ListBook />
-        </section>
-      </main>
-    </>
+    <Layout>
+      <Component />
+    </Layout>
   )
 }
 

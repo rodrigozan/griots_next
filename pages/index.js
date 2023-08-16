@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 
+import Navbar from '@/components/Navbar'
 import Login from '@/components/Login'
-import Books from '@/components/Books'
+import ListBook from '@/components/Books/ListBook'
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState('')
@@ -11,14 +12,15 @@ export default function Home() {
     setIsLoggedIn(storedValue)
   }, [])
 
-  const Layout = isLoggedIn != null ? Books : Login;
+  //const Layout = isLoggedIn != null ? ListBook : Login;
   return (
     <>
+      <Navbar />
       <main className='container'>
-        <seciont className='home row'>
-          token: {isLoggedIn}
-          <Layout />
-        </seciont>
+        <section className='home row'>
+          {/* <Layout /> */}
+          <ListBook />
+        </section>
       </main>
     </>
   )

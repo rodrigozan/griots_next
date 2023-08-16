@@ -1,0 +1,5 @@
+[
+    { "label": "Fantasy", "genre": "fantasy" },
+    { "label": "Science Fiction", "genre": "science_fiction" },
+    { "label": "Horror", "genre": "horror" }
+]

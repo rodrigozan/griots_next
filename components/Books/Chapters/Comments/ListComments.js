@@ -42,28 +42,22 @@ const ListComments = ({ bookID, chapterID }) => {
         <div>
             <h3>Comments</h3>
             {comments.length > 0 ? (
-                <ul>
-                    {comments.map((comment, index) => (
-                        // <li key={index}>
-                        //     Autor: {comment.author}
-                        //     {comment.content}
-                        // </li>
-                        <ListGroup key={index}>
-                            <ListGroup.Item
-                                as="li"
-                                className="d-flex justify-content-between align-items-start"
-                            >
-                                <div className="ms-2 me-auto">
-                                    <div className="fw-bold">{comment.author}</div>
-                                    {comment.content}
-                                </div>
-                                <Badge bg="primary" pill>
-                                    14
-                                </Badge>
-                            </ListGroup.Item>
-                        </ListGroup>
-                    ))}
-                </ul>
+                comments.map((comment, index) => (
+                    <ListGroup key={index}>
+                        <ListGroup.Item
+                            as="li"
+                            className="d-flex justify-content-between align-items-start"
+                        >
+                            <div className="ms-2 me-auto">
+                                <div className="fw-bold">{comment.author}</div>
+                                {comment.content}
+                            </div>
+                            <Badge bg="primary" pill>
+                                14
+                            </Badge>
+                        </ListGroup.Item>
+                    </ListGroup>
+                ))
             ) : (
                 <p>No comments available.</p>
             )}

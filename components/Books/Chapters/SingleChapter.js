@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import axios from '@/utils/axios';
 
 import AlertActions from '@/components/Alert'
-import Comments from '@/components/Books/Chapters/Comments';
+import ListComments from '@/components/Books/Chapters/Comments/ListComments';
 import NewComment from '@/components/Books/Chapters/Comments/NewComment';
 
 import { Button } from 'react-bootstrap';
@@ -144,13 +144,8 @@ const Listchapter = () => {
         {chapter ? (
           <div>
             <h2>{chapter.title}</h2>
-            {/* <ReactMarkdown>{chapter.content}</ReactMarkdown> */}
-            <Comments
-              markdownContent={chapter.content}
-              comments={comments}
-              bookID={id}
-              chapterID={chapter_id}
-            />
+            <ReactMarkdown>{chapter.content}</ReactMarkdown>
+            <ListComments bookID={id} chapterID={chapter_id} />
             <NewComment
               paragraphIndex={0}
               onAddComment={handleAddComment}

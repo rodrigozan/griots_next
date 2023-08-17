@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import slugify from 'slugify';
 
 
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
@@ -25,6 +26,12 @@ const NewBook = ({ goToRegister }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const slug = slugify(title, {
+            lower: true,
+            remove: /[*+~.()'"!:@]/g,
+            replacement: '-',
+        })
+
         const token = localStorage.getItem('token')
         const decoded = jwt_decode(token)
 
@@ -39,6 +46,7 @@ const NewBook = ({ goToRegister }) => {
                     author,
                     genre,
                     description,
+                    slug
                 })
                     .then(success => {
                         console.log("Deu certo os books", success.data._id)
@@ -56,14 +64,7 @@ const NewBook = ({ goToRegister }) => {
                         axios.get(`http://localhost:4000/api/books/${success.data._id}`)
                             .then(success => console.log("Deu certo a lista de books", success.data))
 
-                        // }
                     })
-
-
-
-
-                // await axios.get('http://localhost:4000/api/books/'+'')
-                //     .then(success => console.log("Deu certo a lista de books", success.data))
             } else {
                 console.log('Os campos precisam estar preenchidos');
             }

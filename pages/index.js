@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import Carousel from 'react-bootstrap/Carousel';
+
 import DefaultLayout from "@/layouts/default";
 import NoSidebarLayout from "@/layouts/no_header";
 
@@ -14,7 +16,15 @@ export default function Home() {
     setIsLoggedIn(storedValue)
   }, [])
 
-  const Component = isLoggedIn ? ListBook : Login;
+  const Books = () => {
+    return (
+      <Carousel>
+        <ListBook />
+      </Carousel>
+    )
+  }
+
+  const Component = isLoggedIn ? Books : Login;
   const Layout = isLoggedIn ? DefaultLayout : NoSidebarLayout;
 
   return (

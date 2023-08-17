@@ -1,18 +1,18 @@
 import DefaultLayout from "@/layouts/default";
 
-import ListBook from '@/components/Books/ListBook'
+import SingleChapter from '@/components/Books/Chapters/SingleChapter'
 
 export default function Home() {
   const Books = () => {
     return (
       <DefaultLayout>
-        <ListBook />
+        <SingleChapter />   
       </DefaultLayout>
     )
   }
 
   return (
-    <Books />
+    <Books />   
   )
 }
 

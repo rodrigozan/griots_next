@@ -51,14 +51,14 @@ const ListBook = () => {
     <div>
       <button className='btn btn-primary' onClick={handleNew}>Add New Book</button>
       {books.length > 0 ? (
-        <Carousel>
+        <div className='row'>
           {books.map((book) => (
-            <div className="card d-inline-block align-top" style={{ width: "18rem" }} key={book._id}>
-              <Link href={`/books/single_user/${book._id}`}>
+            <div className="card d-inline-block align-top col-3" key={book._id}>
+              <Link href={`/books/${book._id}`}>
                 <img src={`http://localhost:4000${book.cover}`} className="card-img-top" alt="..." />
               </Link>
               <div className="card-body">
-                <Link href={`/books/single_user/${book._id}`}>
+                <Link href={`/books/${book._id}`}>
                   <h5 className="card-title">{book.title}</h5>
                   <p className="card-text">{book.description}</p>
                 </Link>
@@ -68,7 +68,7 @@ const ListBook = () => {
               </div>
             </div>
           ))}
-        </Carousel>
+        </div>
       ) : (
         <p>No books available.</p>
       )}

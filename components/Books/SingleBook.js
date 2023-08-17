@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+
 import axios from '@/utils/axios';
+
+import ListChapters from './Chapters/ListChapters';
 
 const SingleBook = () => {
     const router = useRouter();
@@ -12,15 +15,6 @@ const SingleBook = () => {
             fetchBookDetails();
         }
     }, [id]);
-
-    //   const fetchBookDetails = async () => {
-    //     try {
-    //       const response = await axios.get(`http://localhost:4000/api/books/${id}`);
-    //       setBook(response.data);
-    //     } catch (error) {
-    //       console.error('Error fetching book details:', error);
-    //     }
-    //   };
 
     const fetchBookDetails = async () => {
         try {
@@ -53,7 +47,7 @@ const SingleBook = () => {
                     <p>Author: {book.author}</p>
                     <p>Genre: {book.genre}</p>
                     <p>Description: {book.description}</p>
-                    {/* Renderize outras informações do livro aqui */}
+                    <ListChapters id={id} />
                 </div>
             ) : (
                 <p>Loading...</p>

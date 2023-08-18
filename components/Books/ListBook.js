@@ -43,13 +43,11 @@ const ListBook = () => {
     }
   };
 
-  const handleNew = async () => {
-    router.push('/books/new_book')
-  }
-
   return (
     <div>
       <Link className='btn btn-primary mb-5' href="/books/new_book">Add New Book</Link>
+      <hr />
+      <div className='row'>
       {books.length > 0 ? (
         <div className='row'>
           {books.map((book) => (
@@ -72,6 +70,7 @@ const ListBook = () => {
       ) : (
         <p>No books available.</p>
       )}
+      </div>
     </div>
   );
 

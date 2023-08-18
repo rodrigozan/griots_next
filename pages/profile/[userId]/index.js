@@ -24,13 +24,14 @@ const UserProfile = () => {
 
     useEffect(() => {
         const storedValue = localStorage.getItem('token');
-        setIsLoggedIn(isLoggedIn)
+        console.log("primeiro token", isLoggedIn)
+        setIsLoggedIn(storedValue)
         fetchUser();
     }, []);
 
     const fetchUser = async () => {
-        //const token = localStorage.getItem('token')
-        const decoded = jwt_decode(token)
+        console.log("segundo token", isLoggedIn)
+        const decoded = jwt_decode(isLoggedIn)
 
         setUserId(decoded.userId)
 

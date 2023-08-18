@@ -49,7 +49,7 @@ const ListBook = () => {
 
   return (
     <div>
-      <button className='btn btn-primary' onClick={handleNew}>Add New Book</button>
+      <Link className='btn btn-primary mb-5' href="/books/new_book">Add New Book</Link>
       {books.length > 0 ? (
         <div className='row'>
           {books.map((book) => (

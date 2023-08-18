@@ -15,13 +15,13 @@ const ListComments = ({ bookID, chapterID }) => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/books/${bookID}/chapters/${chapterID}/comments`)
-            response.data.map(async (comment) => {
-                console.log(comment)
+            const response = await axios.get(`http://localhost:4000/api/books/${bookID}/chapters/${chapterID}/comments`);
+            const commentsWithAuthors = await Promise.all(response.data.map(async (comment) => {
                 const author = await fetchUser(comment.author);
                 return { ...comment, author };
-            })
-            setComments(response.data);
+            }));
+            console.log(commentsWithAuthors)
+            setComments(commentsWithAuthors);
         } catch (error) {
             console.log('Error fetching comments:', error);
         }
@@ -29,14 +29,38 @@ const ListComments = ({ bookID, chapterID }) => {
 
     const fetchUser = async (authorId) => {
         try {
-            const response = await axiosInstance.get(`http://localhost:4000/api/users/${authorId}`);
-            console.log(response.data)
-            return response.data.username;
+            const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
+            if(response.data.name) {
+                return response.data.name;
+              }
+              else {
+                return response.data.username
+              }      
         } catch (error) {
             console.error('Error fetching user:', error);
             return null;
         }
     };
+
+
+    // const fetchComments = async () => {
+    //     try {
+    //         const response = await axios.get(`http://localhost:4000/api/books/${bookID}/chapters/${chapterID}/comments`)
+    //         setComments(response.data);
+    //     } catch (error) {
+    //         console.log('Error fetching comments:', error);
+    //     }
+    // };
+
+    // const fetchUser = async (authorId) => {
+    //     try {
+    //         const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
+    //         return response.data.username;
+    //     } catch (error) {
+    //         console.error('Error fetching user:', error);
+    //         return null;
+    //     }
+    // };
 
     return (
         <div>

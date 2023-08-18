@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import Carousel from 'react-bootstrap/Carousel';
 
-import axiosInstance from '@/utils/axios';
+import axios from '@/utils/axios';
 
 const ListBook = () => {
   const [books, setBooks] = useState([]);
@@ -18,7 +18,7 @@ const ListBook = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axiosInstance.get('http://localhost:4000/api/books/');
+      const response = await axios.get('http://localhost:4000/api/books/');
       console.log(response)  
       const booksWithAuthors = await Promise.all(
         response.data.map(async (book) => {
@@ -35,7 +35,7 @@ const ListBook = () => {
 
   const fetchUser = async (authorId) => {
     try {
-      const response = await axiosInstance.get(`http://localhost:4000/api/users/${authorId}`);
+      const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
       return response.data.username;
     } catch (error) {
       console.error('Error fetching user:', error);

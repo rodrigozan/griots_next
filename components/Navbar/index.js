@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react";
+import jwt_decode from 'jwt-decode';
+
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -7,10 +10,22 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function OffcanvasExample() {
+  const [url, setUrl] = useState('')
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const decoded = jwt_decode(token)
+  
+    const userId = decoded.userId
+  
+    setUrl(`/profile/${userId}`)
+  }, [])
+ 
+
   return (
     <>
       {[false].map((expand) => (
-        <Navbar key={expand} expand={expand} className="mb-3"  bg="dark" data-bs-theme="dark">
+        <Navbar key={expand} expand={expand} className="mb-3" bg="dark" data-bs-theme="dark">
           <Container fluid>
             <Navbar.Brand href="#">Griots</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
@@ -27,7 +42,7 @@ function OffcanvasExample() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link href="/">Home</Nav.Link>
-                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <Nav.Link href={url}>Profile</Nav.Link>
                   <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}

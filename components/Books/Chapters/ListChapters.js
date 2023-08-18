@@ -165,7 +165,6 @@ const ListChapters = ({ id }) => {
           <div>
             {chapters.map((chapter) => (
               <React.Fragment key={chapter._id}>
-                {chapter._id}
                 <AccordionChapters
                   title={chapter.title}
                   content={chapter.content}

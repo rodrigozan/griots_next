@@ -23,11 +23,12 @@ const Listchapter = () => {
   const [alertMessage, setAlertMessage] = useState('')
 
   useEffect(() => {
-    console.log(id)
     fetchBookDetails()
   }, []);
 
   const fetchChapter = async () => {
+    console.log("Chapter ID", chapter_id)
+    console.log("Book ID", id)
     try {
       const response = await axios.get(`http://localhost:4000/api/books/${id}/chapters/${chapter_id}`);
       setChapter(response.data);
@@ -42,6 +43,7 @@ const Listchapter = () => {
       const bookDetails = response.data;
       const authorUsername = await fetchUser(bookDetails.author);
       bookDetails.author = authorUsername;
+      console.log("Books",bookDetails)
       setBook(bookDetails);
       fetchChapter();
     } catch (error) {
@@ -52,7 +54,13 @@ const Listchapter = () => {
   const fetchUser = async (authorId) => {
     try {
       const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
-      return response.data.username;
+      console.log(response.data)
+      if(response.data.name) {
+        return response.data.name;
+      }
+      else {
+        return response.data.username
+      }      
     } catch (error) {
       console.error('Error fetching user:', error);
       return null;

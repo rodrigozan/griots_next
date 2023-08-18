@@ -25,7 +25,7 @@ const NewComment = ({ paragraphIndex, onAddComment, bookId, chapterId }) => {
 
     return (
         <Form>
-            <Form.Group className="mb-3" controlId="comment">
+            <Form.Group className="my-3" controlId="comment">
                 <Form.Label>Add your comment</Form.Label>
                 <Form.Control onChange={(e) => setComment(e.target.value)} as="textarea" rows={3} />
             </Form.Group>

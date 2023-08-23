@@ -34,11 +34,12 @@ const NewChapter = () => {
 
         try {
             if (title !== '' && content !== '') {
-                await axios.post(`http://localhost:4000/api/books/${id}/chapters`, { title, content, slug })
+                await axios.post(`http://localhost:4000/api/books/${id}/chapters`, { title, content, slug, book: id })
                     .then(success => {
-                        setTitle('');
-                        setContent('');
-                        router.push(`/books/${id}`)
+                        // setTitle('');
+                        // setContent('');
+                        // router.push(`/books/${id}`)
+                        console.log(success)
                     })
                     .catch(error => console.log("Erro ao cadastrar o capítulo: ", error))
             } else {

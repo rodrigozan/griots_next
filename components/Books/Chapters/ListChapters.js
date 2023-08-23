@@ -26,6 +26,7 @@ const ListChapters = ({ id }) => {
   const fetchChapters = async () => {
     try {
       const response = await axiosInstance.get(`http://localhost:4000/api/books/${id}/chapters`);
+      console.log("Chapters: ",response.data)
       setChapters(response.data)
     } catch (error) {
       console.error('Error fetching chapters:', error);
@@ -70,7 +71,7 @@ const ListChapters = ({ id }) => {
   const handleDeleteSelected = async () => {
     try {
       for (const chapterId of selectedChapters) {
-        await axiosInstance.delete(`http://localhost:4000/api/books/${id}/chapters/${chapterId}`);
+        await axiosInstance.post(`http://localhost:4000/api/books/${id}/chapters/delete/${chapterId}`, {bookID: id, chapterId: chapterId});
       }
       setAlertMessage(SuccessDeletedMessage);
       setVariant('success');
@@ -123,6 +124,8 @@ const ListChapters = ({ id }) => {
   }
 
   const handleDelete = async () => {
+    console.log('Book Id', id)
+    console.log('chapter id', chapterId)
     axiosInstance.delete(`http://localhost:4000/api/books/${id}/chapters/${chapterId}`)
       .then(success => {
         console.log(success)

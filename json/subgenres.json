@@ -1,0 +1,39 @@
+{
+    "fantasy": [
+        "High Fantasy",
+        "Low Fantasy",
+        "Urban Fantasy",
+        "Historical Fantasy",
+        "Epic Fantasy",
+        "Sword and Sorcery",
+        "Portal Fantasy",
+        "Dark Fantasy",
+        "Mythic Fantasy",
+        "Magical Realism"
+    ],
+    "science_fiction": [
+        "Afrofantasy",
+        "Space Opera",
+        "Cyberpunk",
+        "Post-Apocalyptic",
+        "Hard Science Fiction",
+        "Soft Science Fiction",
+        "Time Travel",
+        "Alternate History",
+        "Dystopian",
+        "Steampunk",
+        "Military Science Fiction"
+    ],
+    "horror": [
+        "Psychological Horror",
+        "Supernatural Horror",
+        "Slasher",
+        "Creature Feature",
+        "Gothic Horror",
+        "Body Horror",
+        "Haunted House",
+        "Found Footage",
+        "Folk Horror",
+        "Zombie Apocalypse"
+    ]
+}

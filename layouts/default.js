@@ -1,10 +1,11 @@
 import React from 'react';
-import Navbar from '@/components/Navbar'
+
+import Header from '@/components/Header';
 
 export default function DefaultLayout({ children }) {
     return (
         <>
-            <Navbar />
+            <Header />
             <main className='container'>
                 <section className='row'>
                     {children}

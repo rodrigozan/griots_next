@@ -45,7 +45,7 @@ const ListBook = () => {
 
   return (
     <div>
-      <Link className='btn btn-primary mb-5' href="/books/new_book">Add New Book</Link>
+      <Link className='btn btn-primary mb-5' href={`/books/new_book`}>Add New Book</Link>
       <hr />
       <div className='row'>
       {books.length > 0 ? (

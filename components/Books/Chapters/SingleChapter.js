@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import axios from '@/utils/axios';
 
 import AlertActions from '@/components/Alert'
+import NewChapter from './NewChapter';
 import ListComments from '@/components/Books/Chapters/Comments/ListComments';
 import NewComment from '@/components/Books/Chapters/Comments/NewComment';
 
@@ -12,8 +13,7 @@ import { Button } from 'react-bootstrap';
 
 const Listchapter = () => {
   const router = useRouter();
-  const { id } = router.query;
-  const { chapter_id } = router.query;
+  const { id, chapter_id } = router.query;
   const [book, setBook] = useState(null);
   const [chapter, setChapter] = useState([]);
   const [chapterId, setChapterId] = useState('')
@@ -21,17 +21,20 @@ const Listchapter = () => {
   const [showAlert, setShowAlert] = useState(false)
   const [variant, setVariant] = useState('')
   const [alertMessage, setAlertMessage] = useState('')
+  const [showChapter, setShowChapter] = useState(false)
+
+  
 
   useEffect(() => {
     fetchBookDetails()
+    setShowChapter(true)
   }, []);
 
   const fetchChapter = async () => {
-    console.log("Chapter ID", chapter_id)
-    console.log("Book ID", id)
     try {
       const response = await axios.get(`http://localhost:4000/api/books/${id}/chapters/${chapter_id}`);
       setChapter(response.data);
+      
     } catch (error) {
       console.log('Error fetching chapter:', error);
     }
@@ -43,7 +46,6 @@ const Listchapter = () => {
       const bookDetails = response.data;
       const authorUsername = await fetchUser(bookDetails.author);
       bookDetails.author = authorUsername;
-      console.log("Books",bookDetails)
       setBook(bookDetails);
       fetchChapter();
     } catch (error) {
@@ -54,13 +56,12 @@ const Listchapter = () => {
   const fetchUser = async (authorId) => {
     try {
       const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
-      console.log(response.data)
-      if(response.data.name) {
+      if (response.data.name) {
         return response.data.name;
       }
       else {
         return response.data.username
-      }      
+      }
     } catch (error) {
       console.error('Error fetching user:', error);
       return null;
@@ -115,7 +116,6 @@ const Listchapter = () => {
   const handleDelete = async () => {
     axiosInstance.delete(`http://localhost:4000/api/books/${id}/chapter/${chapterId}`)
       .then(success => {
-        console.log(success)
         setAlertMessage(SuccessDeletedMessage)
         setVariant('success')
         setTimeout(() => {
@@ -138,6 +138,10 @@ const Listchapter = () => {
     setShowAlert(false)
   }
 
+  const handleChangeShowUpdate = async () => {
+    setShowChapter(false)
+}
+
   return (
     <div>
       <div className="float-end">
@@ -151,21 +155,28 @@ const Listchapter = () => {
         />
         {chapter ? (
           <div>
-            <h2>{chapter.title}</h2>
-            <ReactMarkdown>{chapter.content}</ReactMarkdown>
-            <ListComments bookID={id} chapterID={chapter_id} />
-            <NewComment
-              paragraphIndex={0}
-              onAddComment={handleAddComment}
-              bookId={id}
-              chapterId={chapter_id}
-            />
-            {comments[0]?.map((comment, index) => (
-              <div key={index}>{comment}</div>
-            ))}
+            {showChapter && (
+              <>
+                <h2>{chapter.title}</h2>
+                <p className='text-small btn btn-info' onClick={handleChangeShowUpdate}>Update Chapter</p>
+                <ReactMarkdown>{chapter.content}</ReactMarkdown>
+                <ListComments bookID={id} chapterID={chapter_id} />
+                <NewComment
+                  paragraphIndex={0}
+                  onAddComment={handleAddComment}
+                  bookId={id}
+                  chapterId={chapter_id}
+                />
+                {comments[0]?.map((comment, index) => (
+                  <div key={index}>{comment}</div>
+                ))}
+              </>
+            )}:{!showChapter && (
+              <NewChapter chaptersDetails={chapter} />
+            )}
           </div>
         ) : (
-          <p>No chapter available.</p>
+          <p>Loading...</p>
         )}
       </div>
     </div>

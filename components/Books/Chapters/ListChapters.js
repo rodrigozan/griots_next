@@ -37,9 +37,13 @@ const ListChapters = ({ id }) => {
     router.push(`/books/${id}/chapters/new_chapter`)
   }
 
-  const handleOnEdit = async (e) => {
+  const handleOnEdit = async (book_id, chapter_id) => {
     console.log("entrou na função")
-   // router.push(`/books/${id}/chapters/new_chapter`)
+   //router.push(`/books/${id}/chapters/${chapter_id}`)
+   router.push({
+    pathname: `/books/${book_id}/chapters/new_chapter`,
+    query: { id: book_id, chapter_id: chapter_id } 
+  });
   }
 
   const handleSelectChapter = (chapterId) => {
@@ -172,7 +176,7 @@ const ListChapters = ({ id }) => {
                   title={chapter.title}
                   content={chapter.content}
                   url={`/books/${id}/chapters/${chapter._id}`}
-                  onEdit={() => handleOnEdit(chapter._id)}
+                  onEdit={() => handleOnEdit(id, chapter._id)}
                   onDelete={() => handleConfirmDelete(chapter._id)}
                   isSelected={selectedChapters.includes(chapter._id)}
                   onSelect={() => handleSelectChapter(chapter._id)}

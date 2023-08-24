@@ -206,7 +206,7 @@ const NewBook = ({ goToRegister, booksDetails }) => {
         <Container>
             <Row className="justify-content-center mt-5">
                 <Col xs={6}>
-                    <h2>Book</h2>
+                    <h2>{booksDetails ? 'Update Book' : 'Create New Book'}</h2>
                     <Form>
                         <Form.Group controlId="title">
                             <Form.Label>Title</Form.Label>
@@ -297,7 +297,7 @@ const NewBook = ({ goToRegister, booksDetails }) => {
                             {isUpdating ? 'Update Book' : 'Create Book'}
                         </Button>
 
-                        <Button variant="link" onClick={goToRegister}>
+                        <Button variant="primary" onClick={goToRegister}>
                             Register
                         </Button>
                     </Form>

@@ -23,8 +23,6 @@ const Listchapter = () => {
   const [alertMessage, setAlertMessage] = useState('')
   const [showChapter, setShowChapter] = useState(false)
 
-  
-
   useEffect(() => {
     fetchBookDetails()
     setShowChapter(true)

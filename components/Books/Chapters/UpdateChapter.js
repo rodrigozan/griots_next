@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import slugify from 'slugify';
 
@@ -10,14 +10,24 @@ import axios from '@/utils/axios';
 
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-const NewChapter = ({ chaptersDetails }) => {
+const UpdateChapter = ({ chaptersDetails, handleCancelUpdate }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [book, setBook] = useState('');
     const [slug, setSlug] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false)
 
     const router = useRouter();
 
-    const { id } = router.query;
+    const { id, chapter_id } = router.query;
+
+    useEffect(() => {
+        setTitle(chaptersDetails.title)
+        setContent(chaptersDetails.content)
+        setBook(chaptersDetails.book)
+        setSlug(chaptersDetails.slug)
+        setIsUpdating(true)
+    }, []);
 
     const handleEditorChange = ({ text }) => {
         setContent(text);
@@ -33,19 +43,30 @@ const NewChapter = ({ chaptersDetails }) => {
         })
     }
 
-    const handleCreateChapter = async (e) => {
+    const handleUpdateChapter = async (e) => {
         e.preventDefault();
 
         const chapter_slug = convertSlug(title)
         setSlug(chapter_slug)
 
+        const updatedAt = Date.now()
+
+        const updatedData = {
+            title,
+            content,
+            slug,
+            book: id,
+            updatedAt
+        };
+
         try {
             if (title !== '' && content !== '') {
-                await axios.post(`http://localhost:4000/api/books/${id}/chapters`, { title, content, slug, book: id })
+                await axios.put(`http://localhost:4000/api/books/${id}/chapters/${chapter_id}`, updatedData)
                     .then(success => {
-                        router.push(`/books/${id}`)
+                        console.log("certo, ta no try", success)
+                        handleCancelUpdate()
                     })
-                    .catch(error => console.log("Erro ao cadastrar o capítulo: ", error))
+                    .catch(error => console.log("Erro ao atualizar o capítulo: ", error))
             } else {
                 console.log('Please fill in all fields');
             }
@@ -73,8 +94,11 @@ const NewChapter = ({ chaptersDetails }) => {
                                 onChange={handleEditorChange}
                             />
                         </Form.Group>
-                        <Button variant="primary" onClick={handleCreateChapter}>
-                        Create Chapter
+                        <Button variant="primary" onClick={handleUpdateChapter}>
+                            Update Chapter
+                        </Button>
+                        <Button variant="info" onClick={handleCancelUpdate}>
+                            Cancel
                         </Button>
 
                     </Form>
@@ -84,4 +108,4 @@ const NewChapter = ({ chaptersDetails }) => {
     );
 };
 
-export default NewChapter;
+export default UpdateChapter;

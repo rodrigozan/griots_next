@@ -19,7 +19,7 @@ const ListBook = () => {
   const fetchBooks = async () => {
     try {
       const response = await axios.get('http://localhost:4000/api/books/');
-      console.log(response)  
+      console.log(response)
       const booksWithAuthors = await Promise.all(
         response.data.map(async (book) => {
           console.log("Books:", book)
@@ -48,28 +48,30 @@ const ListBook = () => {
       <Link className='btn btn-primary mb-5' href={`/books/new_book`}>Add New Book</Link>
       <hr />
       <div className='row'>
-      {books.length > 0 ? (
-        <div className='row'>
-          {books.map((book) => (
-            <div className="card d-inline-block align-top col-3" key={book._id}>
-              <Link href={`/books/${book._id}`}>
-                <img src={`http://localhost:4000${book.cover}`} className="card-img-top" alt="..." />
-              </Link>
-              <div className="card-body">
-                <Link href={`/books/${book._id}`}>
-                  <h5 className="card-title">{book.title}</h5>
-                  <p className="card-text">{book.description}</p>
-                </Link>
-                {/* <div class="d-grid gap-2">
+        {books.length > 0 ? (
+          <div className='row'>
+            {books.map((book) => (
+              <div className="card d-inline-block align-top col-3" key={book._id}>
+                {book.cover && (
+                  <Link href={`/books/${book._id}`}>
+                    <img src={`http://localhost:4000${book.cover}`} className="card-img-top" alt="..." />
+                  </Link>
+                )}
+                <div className="card-body">
+                  <Link className='link' href={`/books/${book._id}`}>
+                    <h5 className="card-title">{book.title}</h5>
+                    <p className="card-text">{book.description}</p>
+                  </Link>
+                  {/* <div class="d-grid gap-2">
                   <button className="btn btn-primary">Ready</button>
                 </div> */}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>No books available.</p>
-      )}
+            ))}
+          </div>
+        ) : (
+          <p>No books available.</p>
+        )}
       </div>
     </div>
   );

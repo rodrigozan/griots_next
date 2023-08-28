@@ -34,7 +34,7 @@ const Register = () => {
     } catch (error) {
       console.error('Error registering:', error);
     } finally {
-      router.push('/login')
+      window.location.reload(false)
     }
   };
 

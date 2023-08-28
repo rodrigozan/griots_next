@@ -31,7 +31,6 @@ const NewBook = ({ goToRegister, booksDetails }) => {
     const router = useRouter()
 
     useEffect(() => {
-        fetchCoauthors();
         if (router.pathname == '/books/[id]') {
             setTitle(booksDetails.title)
             setAuthor(booksDetails.author)
@@ -43,6 +42,7 @@ const NewBook = ({ goToRegister, booksDetails }) => {
             setCover(booksDetails.cover)
             setIsUpdating(true)
         }
+        fetchCoauthors();
     }, []);
 
     const fetchCoauthors = async () => {
@@ -120,6 +120,8 @@ const NewBook = ({ goToRegister, booksDetails }) => {
         const token = localStorage.getItem('token')
         const decoded = jwt_decode(token)
 
+        const authorName = author
+
         setAuthor(decoded.userId)
 
         const slug = convertSlug(title)
@@ -137,22 +139,22 @@ const NewBook = ({ goToRegister, booksDetails }) => {
                 })
                     .then(success => {
                         console.log("Deu certo os books", success.data._id)
-                        //if (cover) {
-                        const formData = new FormData();
-                        formData.append('image', cover);
-                        console.log(formData)
-
-                        axios.post(`http://localhost:4000/api/books/${success.data._id}/upload-image`, formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data',
-                            },
+                        axios.post(`http://localhost:4000/api/notifications`, {
+                            userId: author,
+                            type: 'bookCreated',
+                            details: `${authorName} criou o livro: '${title}'`,
                         })
+                            .then(res => console.log('Notification succefuly created'))
+                            .catch(error => console.log('Notification not created', error))
+                            //.finally(router.push(`/books/${success.data._id}`))
+                            .catch(error => console.log("deu ruim", error))
+                        if (cover) {
+                            const formData = new FormData();
+                            formData.append('image', cover);
+                            console.log(formData)
 
-                        axios.get(`http://localhost:4000/api/books/${success.data._id}`)
-                            .then(success => console.log("Deu certo a lista de books", success.data))
-
-                        router.push(`/books/${success.data._id}`)
-
+                            axios.post(`http://localhost:4000/api/books/${success.data._id}/upload-image`, formData)
+                        }
                     })
             } else {
                 console.log('Os campos precisam estar preenchidos');
@@ -191,7 +193,13 @@ const NewBook = ({ goToRegister, booksDetails }) => {
         try {
             await axios.put(`http://localhost:4000/api/books/${id}`, updatedData)
                 .then(success => {
-                    console.log("certo, ta no try", success)
+                    axios.post(`http://localhost:4000/api/notifications`, {
+                        userId: author,
+                        type: 'bookCreated',
+                        details: `${booksDetails.author} atualizou o livro: '${title}'`,
+                    })
+                    .then(res => console.log('Notification succefuly created'))
+                    .catch(error => console.log('Notification not created'))
                     setIsUpdating(false)
                     window.location.reload(false)
                 })
@@ -219,7 +227,8 @@ const NewBook = ({ goToRegister, booksDetails }) => {
                         </Form.Group>
                         <Form.Group controlId="coauthors">
                             <Form.Label>Coauthors</Form.Label>
-                            <Form.Select aria-label="Coauthors" value={coAuthors} onChange={handleCoauthorChange}>
+                            <Form.Select aria-label="Coauthors" placeholder='Coauhtors' value={coAuthors} onChange={handleCoauthorChange}>
+                                <option value="">Select a coauthor</option>
                                 {coAuthors && coAuthors.map(coAuthor => (
                                     <option key={coAuthor._id} value={coAuthor._id}>
                                         {coAuthor.name || coAuthor.username}
@@ -295,10 +304,6 @@ const NewBook = ({ goToRegister, booksDetails }) => {
                         </Button> */}
                         <Button variant="primary" onClick={isUpdating ? handleUpdateBook : handleSubmit}>
                             {isUpdating ? 'Update Book' : 'Create Book'}
-                        </Button>
-
-                        <Button variant="primary" onClick={goToRegister}>
-                            Register
                         </Button>
                     </Form>
                 </Col>

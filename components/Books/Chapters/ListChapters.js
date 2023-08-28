@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+import { Button } from 'react-bootstrap';
+import Table from 'react-bootstrap/Table';
 
 import axiosInstance from '@/utils/axios';
 
 import AccordionChapters from '@/components/Accordion';
+import CardChapter from '@/components/Card';
 import AlertActions from '@/components/Alert'
-
-import { Button } from 'react-bootstrap';
+import TableContent from '@/components/Tables';
 
 const ListChapters = ({ id }) => {
   const router = useRouter();
@@ -19,6 +23,11 @@ const ListChapters = ({ id }) => {
   const [variant, setVariant] = useState('')
   const [alertMessage, setAlertMessage] = useState('')
 
+  const key = async (chapter) => {
+    const count = await chapter.lenght.map(item => { return item++ })
+    return count
+  }
+
   useEffect(() => {
     fetchChapters();
   }, []);
@@ -26,7 +35,7 @@ const ListChapters = ({ id }) => {
   const fetchChapters = async () => {
     try {
       const response = await axiosInstance.get(`http://localhost:4000/api/books/${id}/chapters`);
-      console.log("Chapters: ",response.data)
+      console.log("Chapters: ", response.data)
       setChapters(response.data)
     } catch (error) {
       console.error('Error fetching chapters:', error);
@@ -39,11 +48,10 @@ const ListChapters = ({ id }) => {
 
   const handleOnEdit = async (book_id, chapter_id) => {
     console.log("entrou na função")
-   //router.push(`/books/${id}/chapters/${chapter_id}`)
-   router.push({
-    pathname: `/books/${book_id}/chapters/new_chapter`,
-    query: { id: book_id, chapter_id: chapter_id } 
-  });
+    router.push({
+      pathname: `/books/${book_id}/chapters/new_chapter`,
+      query: { id: book_id, chapter_id: chapter_id }
+    });
   }
 
   const handleSelectChapter = (chapterId) => {
@@ -75,7 +83,7 @@ const ListChapters = ({ id }) => {
   const handleDeleteSelected = async () => {
     try {
       for (const chapterId of selectedChapters) {
-        await axiosInstance.post(`http://localhost:4000/api/books/${id}/chapters/delete/${chapterId}`, {bookID: id, chapterId: chapterId});
+        await axiosInstance.post(`http://localhost:4000/api/books/${id}/chapters/delete/${chapterId}`, { bookID: id, chapterId: chapterId });
       }
       setAlertMessage(SuccessDeletedMessage);
       setVariant('success');
@@ -155,13 +163,17 @@ const ListChapters = ({ id }) => {
     setShowAlertActions(false)
   }
 
+  const handleViewChapter = async (bookId, chapterID) => {
+    router.push(`/books/${bookId}/chapters/${chapterID}`)
+  }
+
   return (
     <div>
       <input type="checkbox" checked={selectAllChecked} onChange={handleSelectAll} /> {selectAllChecked ? 'Deselect Chapters' : 'Select All Chapters'} {selectAllChecked ? <ButtonDeleteAll /> : ''}
-      
+
       <div className="float-end">
-          <Button variant="primary" onClick={handleNew}>Add New Chapter</Button>
-        </div>
+        <Button variant="primary" onClick={handleNew}>Add New Chapter</Button>
+      </div>
       <div className='mt-4'>
         <AlertActions
           alertAction={showAlert}
@@ -170,27 +182,36 @@ const ListChapters = ({ id }) => {
         />
         {chapters.length > 0 ? (
           <div>
-            {chapters.map((chapter) => (
-              <React.Fragment key={chapter._id}>
-                <AccordionChapters
-                  title={chapter.title}
-                  content={chapter.content}
-                  url={`/books/${id}/chapters/${chapter._id}`}
-                  onEdit={() => handleOnEdit(id, chapter._id)}
-                  onDelete={() => handleConfirmDelete(chapter._id)}
-                  isSelected={selectedChapters.includes(chapter._id)}
-                  onSelect={() => handleSelectChapter(chapter._id)}
-                />
-                <AlertActions
-                  alertAction={showAlertActions}
-                  alertMessage={alertMessage}
-                  variant={variant}
-                />
-              </React.Fragment>
-            ))}
+            <table class="table align-middle">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Chapters</th>
+                  <th colSpan='3'>Actions</th>
+                </tr>
+              </thead>
+              {chapters.map((chapter) => (
+                <>
+                  <tbody>
+                    <tr>
+                      <td>{chapter.chapterId}</td>
+                      <td><span className="fw-bold">{chapter.title}</span><br />{chapter.content.substring(0, 150)}...</td>
+                      <td><Button onClick={() => handleViewChapter(id, chapter._id)} variant="info">View</Button></td>
+                      <td><Button onClick={() => handleOnEdit(chaptersDetails = chapter)} variant="warning">Edit</Button></td>
+                      <td><Button onClick={() => handleSelectChapter(chapter._id)} variant="danger">Delete</Button></td>
+                    </tr>
+                  </tbody>
+                  <AlertActions
+                    alertAction={showAlertActions}
+                    alertMessage={alertMessage}
+                    variant={variant}
+                  />
+                </>
+              ))}
+            </table>
           </div>
         ) : (
-          <p>No chapters available.</p>
+          <div>No chapters available.</div>
         )}
       </div>
     </div>

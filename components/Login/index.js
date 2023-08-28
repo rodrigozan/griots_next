@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+
 import Register from '../Register';
 
 const Login = () => {
@@ -7,6 +10,8 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [showLogin, setShowLogin] = useState(true);
     const [showRegister, setShowRegister] = useState(false);
+
+    const router = useRouter()
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -24,6 +29,7 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
+                router.push('/books')
             } else {
                 console.log('algo deu muito ruim', response)
             }

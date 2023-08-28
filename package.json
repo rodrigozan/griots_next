@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "add": "git add .",
-    "commit": "git commit -m 'A commit...'",
+    "commit": "git commit -m 'Refactory layouts of chapters'",
     "push": "npm run add && npm run commit && git push origin bootstrap_layout"
   },
   "dependencies": {

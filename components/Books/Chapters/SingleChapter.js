@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import axios from '@/utils/axios';
 
 import AlertActions from '@/components/Alert'
-import NewChapter from './NewChapter';
+import UpdateChapter from './UpdateChapter';
 import ListComments from '@/components/Books/Chapters/Comments/ListComments';
 import NewComment from '@/components/Books/Chapters/Comments/NewComment';
 
@@ -21,18 +21,17 @@ const Listchapter = () => {
   const [showAlert, setShowAlert] = useState(false)
   const [variant, setVariant] = useState('')
   const [alertMessage, setAlertMessage] = useState('')
-  const [showChapter, setShowChapter] = useState(false)
+  const [showChapter, setShowChapter] = useState(true)
 
   useEffect(() => {
     fetchBookDetails()
-    setShowChapter(true)
   }, []);
 
   const fetchChapter = async () => {
     try {
       const response = await axios.get(`http://localhost:4000/api/books/${id}/chapters/${chapter_id}`);
       setChapter(response.data);
-      
+
     } catch (error) {
       console.log('Error fetching chapter:', error);
     }
@@ -138,7 +137,11 @@ const Listchapter = () => {
 
   const handleChangeShowUpdate = async () => {
     setShowChapter(false)
-}
+  }
+
+  const handleCancelUpdate = async () => {
+    setShowChapter(true)
+  }
 
   return (
     <div>
@@ -170,7 +173,10 @@ const Listchapter = () => {
                 ))}
               </>
             )}:{!showChapter && (
-              <NewChapter chaptersDetails={chapter} />
+              <UpdateChapter
+                chaptersDetails={chapter}
+                handleCancelUpdate={handleCancelUpdate}
+              />
             )}
           </div>
         ) : (

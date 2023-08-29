@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 
-import jwt_decode from 'jwt-decode';
+//import jwt_decode from 'jwt-decode';
 
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 
@@ -23,35 +23,39 @@ const UserProfile = () => {
     const [alertMessage, setAlertMessage] = useState('')
 
     useEffect(() => {
-        const storedValue = localStorage.getItem('token');
-        console.log("primeiro token", isLoggedIn)
-        setIsLoggedIn(storedValue)
-        fetchUser();
+        const userID = router.query()
+        console.log("User id", userID)
+        // const storedValue = localStorage.getItem('token');
+        // console.log("primeiro token", storedValue)
+        // setIsLoggedIn(storedValue)
+        // fetchUser();
     }, []);
 
-    const fetchUser = async () => {
-        console.log("segundo token", isLoggedIn)
-        const decoded = jwt_decode(isLoggedIn)
+    // const fetchUser = async () => {
+    //     const userID = router.query()
+    //     console.log("User id", userID)
+    //     console.log("segundo token", isLoggedIn)
+    //     const decoded = jwt_decode(isLoggedIn)
 
-        setUserId(decoded.userId)
+    //     setUserId(decoded.userId)
 
-        console.log(userId);
+    //     console.log(userId);
 
-        try {
-            const response = await axios.get(`http://localhost:4000/api/users/${userId}`);
-            setUser(response.data)
-            setBasicInfo({
-                username: response.data.username,
-                email: response.data.email,
-                name: response.data.name
-            })
-            console.log("e aqui, entrou?", basicInfo)
-        } catch (error) {
-            console.log('Error fetching user:', error);
-            return null;
-        }
+    //     try {
+    //         const response = await axios.get(`http://localhost:4000/api/users/${userId}`);
+    //         setUser(response.data)
+    //         setBasicInfo({
+    //             username: response.data.username,
+    //             email: response.data.email,
+    //             name: response.data.name
+    //         })
+    //         console.log("e aqui, entrou?", basicInfo)
+    //     } catch (error) {
+    //         console.log('Error fetching user:', error);
+    //         return null;
+    //     }
 
-    }
+    // }
 
     const [basicInfo, setBasicInfo] = useState({
         username: '',

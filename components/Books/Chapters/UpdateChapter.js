@@ -16,6 +16,7 @@ const UpdateChapter = ({ chaptersDetails, handleCancelUpdate }) => {
     const [book, setBook] = useState('');
     const [slug, setSlug] = useState('');
     const [isUpdating, setIsUpdating] = useState(false)
+    const [wordCount, setWordCount] = useState(0)
 
     const router = useRouter();
 
@@ -29,8 +30,16 @@ const UpdateChapter = ({ chaptersDetails, handleCancelUpdate }) => {
         setIsUpdating(true)
     }, []);
 
+    const countWords = ({ text }) => {
+        const words = text.trim().split(/\s+/);
+        return words.length;
+    }
+    
+
     const handleEditorChange = ({ text }) => {
         setContent(text);
+        const newWordCount = countWords(text)
+        setWordCount(newWordCount)
     };
 
     const mdParser = new MarkdownIt()
@@ -64,7 +73,8 @@ const UpdateChapter = ({ chaptersDetails, handleCancelUpdate }) => {
                 await axios.put(`http://localhost:4000/api/books/${id}/chapters/${chapter_id}`, updatedData)
                     .then(success => {
                         console.log("certo, ta no try", success)
-                        handleCancelUpdate()
+                        //handleCancelUpdate()
+                        window.location.reload(false)
                     })
                     .catch(error => console.log("Erro ao atualizar o capítulo: ", error))
             } else {
@@ -80,7 +90,7 @@ const UpdateChapter = ({ chaptersDetails, handleCancelUpdate }) => {
             <Row className="justify-content-center mt-5">
                 <Col xs={12}>
                     <h2>{chaptersDetails ? 'Update Chapter' : 'Create New Chapter'}</h2>
-                    <Form>
+                    <Form className='mb-5'>
                         <Form.Group controlId="title">
                             <Form.Label>Title</Form.Label>
                             <Form.Control type="text" placeholder="Enter title" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -94,13 +104,15 @@ const UpdateChapter = ({ chaptersDetails, handleCancelUpdate }) => {
                                 onChange={handleEditorChange}
                             />
                         </Form.Group>
-                        <Button variant="primary" onClick={handleUpdateChapter}>
-                            Update Chapter
-                        </Button>
-                        <Button variant="info" onClick={handleCancelUpdate}>
-                            Cancel
-                        </Button>
-
+                        <p>Total de Palavras: {wordCount}</p>   
+                        <div className='my-5'>
+                            <Button className='me-2' variant="primary" onClick={handleUpdateChapter}>
+                                Update Chapter
+                            </Button>
+                            <Button variant="info" onClick={handleCancelUpdate}>
+                                Cancel
+                            </Button>
+                        </div>
                     </Form>
                 </Col>
             </Row>

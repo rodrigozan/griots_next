@@ -11,7 +11,7 @@ import NewComment from '@/components/Books/Chapters/Comments/NewComment';
 
 import { Button } from 'react-bootstrap';
 
-const Listchapter = () => {
+const SingleChapter = () => {
   const router = useRouter();
   const { id, chapter_id } = router.query;
   const [book, setBook] = useState(null);
@@ -145,9 +145,11 @@ const Listchapter = () => {
 
   return (
     <div>
-      <div className="float-end">
-        <Button variant="primary" onClick={handleNew}>Add New Chapter</Button>
-      </div>
+      {withAuth(
+        <div className="float-end">
+          <Button variant="primary" onClick={handleNew}>Add New Chapter</Button>
+        </div>
+      )}
       <div className='mt-4'>
         <AlertActions
           alertAction={showAlert}
@@ -159,7 +161,7 @@ const Listchapter = () => {
             {showChapter && (
               <>
                 <h2 className='text-primary'>{chapter.title}</h2>
-                <p className='text-small btn btn-warning text-white' onClick={handleChangeShowUpdate}>Update Chapter</p>
+                <p className='text-small btn btn-warning text-white' onClick={handleChangeShowUpdate}>Edit Chapter</p>
                 <ReactMarkdown>{chapter.content}</ReactMarkdown>
                 <ListComments bookID={id} chapterID={chapter_id} />
                 <NewComment
@@ -188,4 +190,4 @@ const Listchapter = () => {
 
 };
 
-export default Listchapter;
+export default SingleChapter;

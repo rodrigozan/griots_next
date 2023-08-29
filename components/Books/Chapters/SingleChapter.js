@@ -158,8 +158,8 @@ const Listchapter = () => {
           <div>
             {showChapter && (
               <>
-                <h2>{chapter.title}</h2>
-                <p className='text-small btn btn-info' onClick={handleChangeShowUpdate}>Update Chapter</p>
+                <h2 className='text-primary'>{chapter.title}</h2>
+                <p className='text-small btn btn-warning text-white' onClick={handleChangeShowUpdate}>Update Chapter</p>
                 <ReactMarkdown>{chapter.content}</ReactMarkdown>
                 <ListComments bookID={id} chapterID={chapter_id} />
                 <NewComment

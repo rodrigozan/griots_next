@@ -59,8 +59,8 @@ const ListBook = () => {
                 )}
                 <div className="card-body">
                   <Link className='link' href={`/books/${book._id}`}>
-                    <h5 className="card-title">{book.title}</h5>
-                    <p className="card-text">{book.description}</p>
+                    <h5 className="card-title link-primary">{book.title}</h5>
+                    <p className="card-text link-secundary">{book.description}</p>
                   </Link>
                   {/* <div class="d-grid gap-2">
                   <button className="btn btn-primary">Ready</button>

@@ -196,7 +196,7 @@ const ListChapters = ({ id }) => {
                     <tr>
                       <td>{chapter.chapterId}</td>
                       <td><span className="fw-bold">{chapter.title}</span><br />{chapter.content.substring(0, 150)}...</td>
-                      <td><Button onClick={() => handleViewChapter(id, chapter._id)} variant="info">View</Button></td>
+                      <td><Button onClick={() => handleViewChapter(id, chapter._id)} variant="primary">View</Button></td>
                       <td><Button onClick={() => handleOnEdit(chaptersDetails = chapter)} variant="warning">Edit</Button></td>
                       <td><Button onClick={() => handleSelectChapter(chapter._id)} variant="danger">Delete</Button></td>
                     </tr>

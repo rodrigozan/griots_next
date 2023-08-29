@@ -56,29 +56,9 @@ const ListComments = ({ bookID, chapterID }) => {
         }
     }
 
-
-    // const fetchComments = async () => {
-    //     try {
-    //         const response = await axios.get(`http://localhost:4000/api/books/${bookID}/chapters/${chapterID}/comments`)
-    //         setComments(response.data)
-    //     } catch (error) {
-    //         console.log('Error fetching comments:', error)
-    //     }
-    // }
-
-    // const fetchUser = async (authorId) => {
-    //     try {
-    //         const response = await axios.get(`http://localhost:4000/api/users/${authorId}`)
-    //         return response.data.username
-    //     } catch (error) {
-    //         console.error('Error fetching user:', error)
-    //         return null
-    //     }
-    // }
-
     return (
         <div>
-            <h3>Comments</h3>
+            <h3 className='text-warning'>Comments</h3>
             {comments.length > 0 ? (
                 comments.map((comment, index) => (
                     <ListGroup key={index}>

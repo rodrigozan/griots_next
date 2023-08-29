@@ -54,7 +54,7 @@ const SingleBook = () => {
                     {showBook && (
                         <>
                             <h2>{book.title}</h2>
-                            <p className='text-small btn btn-info' onClick={handleChangeShowUpdate}>Update Book</p>
+                            <p className='text-small btn btn-warning text-white' onClick={handleChangeShowUpdate}>Edit Book</p>
                             <p>Author: {book.author}</p>
                             <p>Genre: {book.genre}</p>
                             <p>Description: {book.description}</p>

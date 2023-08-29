@@ -47,14 +47,14 @@ const Breadcrumbs = () => {
         return (
             <nav className='container'>
                 <Breadcrumb>
-                    <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+                    <Breadcrumb.Item href="/"><span className='link link-secundary'>Home</span></Breadcrumb.Item>
                     {pathSegments.map((segment, index) => (
                         <Breadcrumb.Item
                             key={index}
                             active={index === pathSegments.length - 1}
                             href={`/${pathSegments.slice(0, index + 1).join('/')}`}
                         >
-                            {segment === bookId ? bookName : segment}
+                            <span className='link link-secundary'>{segment === bookId ? bookName : segment}</span>
                         </Breadcrumb.Item>
                     ))}
                 </Breadcrumb>

@@ -9,6 +9,8 @@ import UpdateChapter from './UpdateChapter';
 import ListComments from '@/components/Books/Chapters/Comments/ListComments';
 import NewComment from '@/components/Books/Chapters/Comments/NewComment';
 
+import withAuth from '@/utils/withAuth';
+
 import { Button } from 'react-bootstrap';
 
 const SingleChapter = () => {

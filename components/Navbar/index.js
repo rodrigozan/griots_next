@@ -21,7 +21,7 @@ function NavBar() {
                 id="basic-nav-dropdown"
                 drop='start'
                 >
-                  <NavDropdown.Item href="/books/new">New Book</NavDropdown.Item>
+                  <NavDropdown.Item href="/books/new_book">New Book</NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">
                     Another action
                   </NavDropdown.Item>

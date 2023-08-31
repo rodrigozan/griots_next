@@ -51,7 +51,7 @@ const ListBook = () => {
         {books.length > 0 ? (
           <div className='row'>
             {books.map((book) => (
-              <div className="card d-inline-block align-top col-3" key={book._id}>
+              <div className="card d-inline-block align-top col-3 me-2" key={book._id}>
                 {book.cover && (
                   <Link href={`/books/${book._id}`}>
                     <img src={`http://localhost:4000${book.cover}`} className="card-img-top" alt="..." />

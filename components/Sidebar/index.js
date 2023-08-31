@@ -7,7 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const Sidebar = ({expand}) => {
-    const [url, setUrl] = useState('')
+    const [profileUrl, setProfileUrl] = useState('')
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -15,7 +15,7 @@ const Sidebar = ({expand}) => {
 
         const userId = decoded.userId
 
-        setUrl(`/profile/${userId}`)
+        setProfileUrl(`/profile/${userId}`)
     }, [])
 
     return (
@@ -31,7 +31,9 @@ const Sidebar = ({expand}) => {
             </Form>
             <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href={url}>Profile</Nav.Link>
+                <Nav.Link href={profileUrl}>Profile</Nav.Link>
+                <Nav.Link href="/feed">Timeline</Nav.Link>
+                <Nav.Link href="/books">Books</Nav.Link>
                 <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}

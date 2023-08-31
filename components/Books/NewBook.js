@@ -137,25 +137,26 @@ const NewBook = ({ goToRegister, booksDetails }) => {
                     tags,
                     slug
                 })
-                    .then(success => {
-                        console.log("Deu certo os books", success.data._id)
-                        axios.post(`http://localhost:4000/api/notifications`, {
-                            userId: author,
-                            type: 'bookCreated',
-                            details: `${authorName} criou o livro: '${title}'`,
-                        })
-                            .then(res => console.log('Notification succefuly created'))
-                            .catch(error => console.log('Notification not created', error))
-                            //.finally(router.push(`/books/${success.data._id}`))
-                            .catch(error => console.log("deu ruim", error))
-                        if (cover) {
-                            const formData = new FormData();
-                            formData.append('image', cover);
-                            console.log(formData)
+                .then(success => {
+                    console.log("Deu certo os books", success.data._id)
+                    if (cover) {
+                        const formData = new FormData();
+                        formData.append('image', cover);
+                        console.log(formData)
 
-                            axios.post(`http://localhost:4000/api/books/${success.data._id}/upload-image`, formData)
-                        }
+                        axios.post(`http://localhost:4000/api/books/${success.data._id}/upload-image`, formData)
+                    }
+                    axios.post(`http://localhost:4000/api/notifications`, {
+                        userId: author,
+                        type: 'bookCreated',
+                        details: `${authorName} criou o livro: '${title}'`,
                     })
+                    .then(res => console.log('Notification succefuly created'))
+                    .catch(error => console.log('Notification not created', error))
+                    .finally(router.push(`/books/${success.data._id}`))
+                    .catch(error => console.log("deu ruim", error))
+                })
+                .catch(error => alert('Não foi possível cadastrar o livro'))
             } else {
                 console.log('Os campos precisam estar preenchidos');
             }
@@ -198,8 +199,8 @@ const NewBook = ({ goToRegister, booksDetails }) => {
                         type: 'bookCreated',
                         details: `${booksDetails.author} atualizou o livro: '${title}'`,
                     })
-                    .then(res => console.log('Notification succefuly created'))
-                    .catch(error => console.log('Notification not created'))
+                        .then(res => console.log('Notification succefuly created'))
+                        .catch(error => console.log('Notification not created'))
                     setIsUpdating(false)
                     window.location.reload(false)
                 })

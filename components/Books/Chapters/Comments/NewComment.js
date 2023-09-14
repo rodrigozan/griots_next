@@ -17,7 +17,7 @@ const NewComment = ({ paragraphIndex, onAddComment, bookId, chapterId }) => {
 
         setAuthor(decoded.userId)
 
-        await axios.post(`http://localhost:4000/api/books/${bookId}/chapters/${chapterId}/comments`, { content: comment, author, bookId, chapterId })
+        await axios.post(`/api/books/${bookId}/chapters/${chapterId}/comments`, { content: comment, author, bookId, chapterId })
             .then(success => alert("Comentário adicionado com sucesso"))
         onAddComment(paragraphIndex, comment);
         setComment('');

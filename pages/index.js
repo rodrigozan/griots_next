@@ -7,6 +7,7 @@ import NoSidebarLayout from "@/layouts/no_header";
 
 import Login from '@/components/Login'
 import ListBook from '@/components/Books/ListBook'
+import Chat from "@/components/Chat";
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState('')
@@ -18,9 +19,12 @@ export default function Home() {
 
   const Books = () => {
     return (
+      <>
+      <Chat />
       <Carousel>
         <ListBook />
       </Carousel>
+      </>
     )
   }
 

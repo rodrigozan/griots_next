@@ -20,7 +20,7 @@ const SingleBook = () => {
 
     const fetchBookDetails = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/books/${id}`);
+            const response = await axios.get(`/api/books/${id}`);
             console.log(response.data)
             const details = response.data;
             const authorUsername = await fetchUser(details.author);
@@ -34,7 +34,7 @@ const SingleBook = () => {
 
     const fetchUser = async (authorId) => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
+            const response = await axios.get(`/api/users/${authorId}`);
             return response.data.username;
         } catch (error) {
             console.error('Error fetching user:', error);

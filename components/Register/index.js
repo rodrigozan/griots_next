@@ -17,7 +17,7 @@ const Register = () => {
     //setUsername(email.split('@')[0])
 
     try {
-      const response = await axios.post('http://localhost:4000/api/users', {
+      const response = await axios.post('/api/users', {
         email,
         username: email.split('@')[0],
         password,

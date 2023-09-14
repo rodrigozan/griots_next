@@ -18,7 +18,7 @@ const ListBook = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/books/');
+      const response = await axios.get('/api/books/');
       console.log(response)
       const booksWithAuthors = await Promise.all(
         response.data.map(async (book) => {
@@ -35,7 +35,7 @@ const ListBook = () => {
 
   const fetchUser = async (authorId) => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
+      const response = await axios.get(`/api/users/${authorId}`);
       return response.data.username;
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -54,7 +54,7 @@ const ListBook = () => {
               <div className="card d-inline-block align-top col-3 me-2" key={book._id}>
                 {book.cover && (
                   <Link href={`/books/${book._id}`}>
-                    <img src={`http://localhost:4000${book.cover}`} className="card-img-top" alt="..." />
+                    <img src={`${book.cover}`} className="card-img-top" alt="..." />
                   </Link>
                 )}
                 <div className="card-body">

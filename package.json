@@ -8,13 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "add": "git add .",
-    "commit": "git commit -m 'Created post CRUD'",
+    "commit": "git commit -m 'Refactory'",
     "push": "npm run add && npm run commit && git push origin bootstrap_layout"
   },
   "dependencies": {
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
+    "dotenv": "^16.3.1",
     "jwt-decode": "^3.1.2",
     "markdown-it": "^13.0.1",
     "markdown-to-jsx": "^7.3.2",

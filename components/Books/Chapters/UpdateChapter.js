@@ -70,7 +70,7 @@ const UpdateChapter = ({ chaptersDetails, handleCancelUpdate }) => {
 
         try {
             if (title !== '' && content !== '') {
-                await axios.put(`http://localhost:4000/api/books/${id}/chapters/${chapter_id}`, updatedData)
+                await axios.put(`/api/books/${id}/chapters/${chapter_id}`, updatedData)
                     .then(success => {
                         console.log("certo, ta no try", success)
                         //handleCancelUpdate()

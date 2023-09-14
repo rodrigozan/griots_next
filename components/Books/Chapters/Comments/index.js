@@ -17,7 +17,7 @@ const Comments = ({ bookID, chapterID, markdownContent, comments, author }) => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/books/${bookID}/chapters/${chapterID}/comments`);
+            const response = await axios.get(`/api/books/${bookID}/chapters/${chapterID}/comments`);
             comments = response.data;
             setShowComments(response.data)
             console.log("Comments", comments)

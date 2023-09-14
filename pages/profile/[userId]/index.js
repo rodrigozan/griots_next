@@ -42,7 +42,7 @@ const UserProfile = () => {
     //     console.log(userId);
 
     //     try {
-    //         const response = await axios.get(`http://localhost:4000/api/users/${userId}`);
+    //         const response = await axios.get(`/api/users/${userId}`);
     //         setUser(response.data)
     //         setBasicInfo({
     //             username: response.data.username,
@@ -129,7 +129,7 @@ const UserProfile = () => {
 
     const handleDeleteAccount = async (id) => {
         localStorage.removeItem("token")
-        axios.delete(`http://localhost:4000/api/users/${id}`)
+        axios.delete(`/api/users/${id}`)
         router.push('/')
     }
 

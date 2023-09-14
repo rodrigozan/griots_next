@@ -14,7 +14,7 @@ const ListComments = ({ bookID, chapterID }) => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/books/${bookID}/chapters/${chapterID}/comments/chapter`)
+            const response = await axios.get(`/api/books/${bookID}/chapters/${chapterID}/comments/chapter`)
 
             console.log('óia, tem data',response.data)
 
@@ -43,7 +43,7 @@ const ListComments = ({ bookID, chapterID }) => {
 
     const fetchUser = async (authorId) => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/users/${authorId}`)
+            const response = await axios.get(`/api/users/${authorId}`)
             if (response.data.name) {
                 return response.data.name
             }

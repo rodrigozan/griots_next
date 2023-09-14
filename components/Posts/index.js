@@ -24,17 +24,17 @@ const Posts = () => {
         const calculateTimeDifferences = () => {
             const timeDiffs = {};
             posts.forEach((post, index) => {
-              const createdAt = moment(post.createdAt); 
-              const now = moment();
-              const diff = now.diff(createdAt); 
-              const duration = moment.duration(diff); 
-      
-              timeDiffs[index] = duration.humanize()
+                const createdAt = moment(post.createdAt);
+                const now = moment();
+                const diff = now.diff(createdAt);
+                const duration = moment.duration(diff);
+
+                timeDiffs[index] = duration.humanize()
             });
             setTimeDifferences(timeDiffs);
-          };
-      
-          calculateTimeDifferences();
+        };
+
+        calculateTimeDifferences();
     }, [posts]);
 
     const fetchAuthor = async () => {
@@ -45,15 +45,19 @@ const Posts = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/posts');
-            console.log(response)
+            const response = await axios.get('/api/posts');
             const postsWithAuthors = await Promise.all(
                 response.data.map(async (post) => {
                     const author = await fetchUser(post.author);
                     return { ...post, author };
                 })
             );
-            setPosts(postsWithAuthors);
+            const sortedPosts = postsWithAuthors.sort((a, b) => {
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
+                return dateB - dateA;
+            });
+            setPosts(sortedPosts);
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
@@ -61,7 +65,7 @@ const Posts = () => {
 
     const fetchUser = async (authorId) => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
+            const response = await axios.get(`/api/users/${authorId}`);
             return response.data.username;
         } catch (error) {
             console.error('Error fetching user:', error);
@@ -75,7 +79,7 @@ const Posts = () => {
         setAuthor(tmp)
         if (mdContent) {
             try {
-                const response = await axios.post('http://localhost:4000/api/posts', { content: mdContent, author: author });
+                const response = await axios.post('/api/posts', { content: mdContent, author: author });
                 setPosts([...posts, response.data]);
                 setMdContent('');
                 fetchPosts()
@@ -89,33 +93,39 @@ const Posts = () => {
         setMdContent(text);
     };
 
-    // const handleLikePost = (index) => {
-    //     const updatedLikes = [...likes];
-    //     updatedLikes[index] = !updatedLikes[index];
-    //     setLikes(updatedLikes);
-    // };
+    const handleSetLikePost = (index) => {
+        const updatedLikes = [...likes];
+        updatedLikes[index] = !updatedLikes[index];
+        setLikes(updatedLikes);
+    };
 
     const handleLikePost = async (postId) => {
         try {
-            // 1. Obter likes atuais do post da API
-            const response = await axios.get(`http://localhost:4000/api/posts/${postId}`);
-            const currentLikes = response.data.likes;
+            const response = await axios.get(`/api/posts/${postId}`);
 
-            // 2. Adicionar um like ao valor retornado
+            const currentLikes = response.data.likes || 0;
+
+            console.log('currentLikes:', currentLikes)
+
             const newLikes = currentLikes + 1;
 
-            // 3. Atualizar os likes na API
-            await axios.patch(`http://localhost:4000/api/posts/${postId}`, { likes: newLikes });
+            console.log('newLikes:', newLikes)
 
-            // Atualizar o estado local dos posts com os novos likes
-            const updatedPosts = posts.map(post => {
-                if (post.id === postId) {
-                    return { ...post, likes: newLikes };
-                }
-                return post;
+            await axios.put(`/api/posts/${postId}`, { likes: newLikes })
+            .then((res) => {
+                const updatedPosts = posts.map(post => {
+                    if (post.id === postId) {
+                        return { ...post, likes: newLikes };
+                    }
+                    return post;
+                });
+    
+                setPosts(updatedPosts);
+            })
+            .catch((err) => {
+                console.log('Não foi possível salvar o like',err);
             });
-
-            setPosts(updatedPosts);
+            
         } catch (error) {
             console.error('Error updating likes:', error);
         }
@@ -126,7 +136,7 @@ const Posts = () => {
         <Container>
             <h2>Posts</h2>
             <Row>
-                <Col md={8}>
+                <Col md={12}>
                     <MdEditor
                         value={mdContent}
                         renderHTML={(text) => mdParser.render(text)}
@@ -149,7 +159,7 @@ const Posts = () => {
                 </Col>
             </Row>
             <Row>
-                <Col md={8}>
+                <Col md={12}>
                     <ListGroup className="mt-3">
                         {posts.map((post, index) => (
                             <ListGroup.Item key={post._id}>
@@ -157,8 +167,12 @@ const Posts = () => {
                                     <div className='col-6'><Badge className="bg-secondary">{post.author}</Badge></div>
                                     <div className='col-5 text-end'>Posted at <Badge className="bg-warning">{timeDifferences[index]} ago</Badge></div>
                                     <div className="col-1" onClick={() => handleLikePost(post._id)}>
-                                        <i className={post.likes > 0 ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
-                                        {post.likes && (<span>{post.likes}</span>)}
+                                        <span className={post.likes > 0 ? 'text-danger' : ''}>
+                                            <i className={post.likes > 0 ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
+                                        </span>
+                                        <span className={post.likes > 0 ? 'text-danger' : ''}>
+                                            {post.likes && (<span>{post.likes}</span>)}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className='row'>

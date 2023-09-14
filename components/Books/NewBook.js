@@ -51,7 +51,7 @@ const NewBook = ({ goToRegister, booksDetails }) => {
 
         setAuthor(decoded.userId)
         try {
-            const response = await axios.get('http://localhost:4000/api/users');
+            const response = await axios.get('/api/users');
             setCoAuthors(response.data.filter(user => user._id !== author));
         } catch (error) {
             console.error('Error fetching coauthors:', error);
@@ -128,7 +128,7 @@ const NewBook = ({ goToRegister, booksDetails }) => {
 
         try {
             if (title !== '' && genre !== '' && description !== '') {
-                await axios.post('http://localhost:4000/api/books', {
+                await axios.post('/api/books', {
                     title,
                     author,
                     genre,
@@ -144,9 +144,9 @@ const NewBook = ({ goToRegister, booksDetails }) => {
                         formData.append('image', cover);
                         console.log(formData)
 
-                        axios.post(`http://localhost:4000/api/books/${success.data._id}/upload-image`, formData)
+                        axios.post(`/api/books/${success.data._id}/upload-image`, formData)
                     }
-                    axios.post(`http://localhost:4000/api/notifications`, {
+                    axios.post(`/api/notifications`, {
                         userId: author,
                         type: 'bookCreated',
                         details: `${authorName} criou o livro: '${title}'`,
@@ -192,9 +192,9 @@ const NewBook = ({ goToRegister, booksDetails }) => {
         console.log(updatedData)
 
         try {
-            await axios.put(`http://localhost:4000/api/books/${id}`, updatedData)
+            await axios.put(`/api/books/${id}`, updatedData)
                 .then(success => {
-                    axios.post(`http://localhost:4000/api/notifications`, {
+                    axios.post(`/api/notifications`, {
                         userId: author,
                         type: 'bookCreated',
                         details: `${booksDetails.author} atualizou o livro: '${title}'`,

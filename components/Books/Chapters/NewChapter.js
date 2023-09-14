@@ -41,12 +41,13 @@ const NewChapter = ({ chaptersDetails }) => {
 
         try {
             if (title !== '' && content !== '') {
-                await axios.post(`http://localhost:4000/api/books/${id}/chapters`, { title, content, slug, book: id })
+                console.log({ title, content, slug, book: id })
+                await axios.post(`/api/books/${id}/chapters`, { title, content, slug, book: id })
                     .then(success => {
                         //router.push(`/books/${id}`)
                         console.log(success)
                     })
-                    .catch(error => console.log("Erro ao cadastrar o capítulo: ", error))
+                    .catch(error => console.log("Erro ao cadastrar o capítulo: ", error.message))
             } else {
                 console.log('Please fill in all fields');
             }

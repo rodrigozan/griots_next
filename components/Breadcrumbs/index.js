@@ -28,7 +28,7 @@ const Breadcrumbs = () => {
 
     const fetchBookName = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/books/${bookId}`);
+            const response = await axios.get(`/api/books/${bookId}`);
             setBookName(response.data.title);
         } catch (error) {
             console.error('Error fetching book name:', error);
@@ -37,7 +37,7 @@ const Breadcrumbs = () => {
 
     const fetchChapterName = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/books/${bookId}/chapters/${chapterId}`);
+            const response = await axios.get(`/api/books/${bookId}/chapters/${chapterId}`);
             setChapterName(response.data.title)
         } catch (error) {
             console.error('Error fetching book name:', error);

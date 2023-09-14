@@ -31,7 +31,7 @@ const SingleChapter = () => {
 
   const fetchChapter = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/books/${id}/chapters/${chapter_id}`);
+      const response = await axios.get(`/api/books/${id}/chapters/${chapter_id}`);
       setChapter(response.data);
 
     } catch (error) {
@@ -41,7 +41,7 @@ const SingleChapter = () => {
 
   const fetchBookDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/books/${id}`);
+      const response = await axios.get(`/api/books/${id}`);
       const bookDetails = response.data;
       const authorUsername = await fetchUser(bookDetails.author);
       bookDetails.author = authorUsername;
@@ -54,7 +54,7 @@ const SingleChapter = () => {
 
   const fetchUser = async (authorId) => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/users/${authorId}`);
+      const response = await axios.get(`/api/users/${authorId}`);
       if (response.data.name) {
         return response.data.name;
       }
@@ -113,7 +113,7 @@ const SingleChapter = () => {
   }
 
   const handleDelete = async () => {
-    axiosInstance.delete(`http://localhost:4000/api/books/${id}/chapter/${chapterId}`)
+    axiosInstance.delete(`/api/books/${id}/chapter/${chapterId}`)
       .then(success => {
         setAlertMessage(SuccessDeletedMessage)
         setVariant('success')
